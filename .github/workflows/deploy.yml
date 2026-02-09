@@ -4,6 +4,11 @@ on:
   push:
     branches: ["main"]
 
+# Prevenir que múltiples despliegues se ejecuten al mismo tiempo
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 permissions:
   contents: read
   pages: write
