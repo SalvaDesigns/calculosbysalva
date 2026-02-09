@@ -1,0 +1,144 @@
+{
+    "years": {
+        "2025": {
+            "categorias": [
+                {
+                    "id": "jefe_servicio",
+                    "nombre": "Jefe de Servicio / Titulado Superior",
+                    "salarioBase": 919.14,
+                    "plusConvenio": 111.97,
+                    "plusDistancia": 181.90,
+                    "iguala": 457.63,
+                    "bolsa": 213.50,
+                    "pagasExtras": 989.31
+                },
+                {
+                    "id": "titulado_medio",
+                    "nombre": "Titulado Grado Medio",
+                    "salarioBase": 874.21,
+                    "plusConvenio": 111.86,
+                    "plusDistancia": 173.98,
+                    "iguala": 437.50,
+                    "bolsa": 213.50,
+                    "pagasExtras": 940.93
+                },
+                {
+                    "id": "administrativo",
+                    "nombre": "Administrativo",
+                    "salarioBase": 829.16,
+                    "plusConvenio": 111.75,
+                    "plusDistancia": 166.67,
+                    "iguala": 418.61,
+                    "bolsa": 213.50,
+                    "pagasExtras": 901.59
+                },
+                {
+                    "id": "aux_administrativo",
+                    "nombre": "Auxiliar Administrativo",
+                    "salarioBase": 783.87,
+                    "plusConvenio": 111.40,
+                    "plusDistancia": 158.30,
+                    "iguala": 397.28,
+                    "bolsa": 213.50,
+                    "pagasExtras": 843.70
+                },
+                {
+                    "id": "cobrador",
+                    "nombre": "Cobrador / Ordenanza",
+                    "salarioBase": 739.10,
+                    "plusConvenio": 111.53,
+                    "plusDistancia": 150.54,
+                    "iguala": 377.43,
+                    "bolsa": 213.50,
+                    "pagasExtras": 795.53
+                },
+                {
+                    "id": "en_general",
+                    "nombre": "Encargado General",
+                    "salarioBase": 829.16,
+                    "plusConvenio": 111.74,
+                    "plusDistancia": 166.17,
+                    "iguala": 417.48,
+                    "bolsa": 213.50,
+                    "pagasExtras": 892.48
+                },
+                {
+                    "id": "supervisor",
+                    "nombre": "Supervisor",
+                    "salarioBase": 815.12,
+                    "plusConvenio": 111.72,
+                    "plusDistancia": 163.73,
+                    "iguala": 411.74,
+                    "bolsa": 213.50,
+                    "pagasExtras": 877.37
+                },
+                {
+                    "id": "en_grupo",
+                    "nombre": "Encargado de Grupo",
+                    "salarioBase": 787.45,
+                    "plusConvenio": 111.62,
+                    "plusDistancia": 158.91,
+                    "iguala": 398.90,
+                    "bolsa": 213.50,
+                    "pagasExtras": 847.57
+                },
+                {
+                    "id": "re_equipo",
+                    "nombre": "Responsable de Equipo",
+                    "salarioBase": 775.82,
+                    "plusConvenio": 111.61,
+                    "plusDistancia": 156.90,
+                    "iguala": 393.74,
+                    "bolsa": 213.50,
+                    "pagasExtras": 835.05
+                },
+                {
+                    "id": "con_limpiador",
+                    "nombre": "Conductor Limpiador",
+                    "salarioBase": 795.55,
+                    "plusConvenio": 111.66,
+                    "plusDistancia": 160.34,
+                    "iguala": 402.53,
+                    "bolsa": 213.50,
+                    "pagasExtras": 856.28
+                },
+                {
+                    "id": "con_especialista",
+                    "nombre": "Conductor / Especialista",
+                    "salarioBase": 782.20,
+                    "plusConvenio": 111.63,
+                    "plusDistancia": 158.01,
+                    "iguala": 396.58,
+                    "bolsa": 213.50,
+                    "pagasExtras": 841.93
+                },
+                {
+                    "id": "peon_especialista",
+                    "nombre": "Peón Especialista",
+                    "salarioBase": 772.97,
+                    "plusConvenio": 111.60,
+                    "plusDistancia": 156.43,
+                    "iguala": 392.50,
+                    "bolsa": 213.50,
+                    "pagasExtras": 832.00
+                },
+                {
+                    "id": "limpiador",
+                    "nombre": "Limpiador / Peón",
+                    "salarioBase": 753.79,
+                    "plusConvenio": 111.55,
+                    "plusDistancia": 153.10,
+                    "iguala": 383.98,
+                    "bolsa": 213.50,
+                    "pagasExtras": 811.36
+                }
+            ],
+            "config": {
+                "smiAnual": 16576,
+                "divisorHoras": 173.33,
+                "ssEmpresa": 0.335,
+                "ssTrabajador": 0.0635
+            }
+        }
+    }
+}

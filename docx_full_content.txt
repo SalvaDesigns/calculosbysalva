@@ -1,0 +1,17 @@
+Esta tabla detalla el núcleo de la nómina mensual para la isla de Tenerife:
+--------------------------------------------------------------------------------
+
+Grupo Profesional | Categoría Profesional | Salario Base | Plus Convenio | Plus Transporte | Plus Mantenimiento | Total Mensual
+Grupo I | Jefe de Servicio / Titulado Superior | 919,14 € | 111,97 € | 181,90 € | 213,50 € | 1.426,51 €
+ | Titulado Grado Medio | 874,21 € | 111,86 € | 173,98 € | 213,50 € | 1.373,55 €
+Grupo II | Administrativo | 829,16 € | 111,75 € | 166,67 € | 213,50 € | 1.321,08 €
+ | Auxiliar Administrativo | 783,87 € | 111,40 € | 158,30 € | 213,50 € | 1.267,07 €
+ | Cobrador / Ordenanza | 739,10 € | 111,53 € | 150,54 € | 213,50 € | 1.214,67 €
+Grupo III | Encargado General | 829,16 € | 111,74 € | 166,17 € | 213,50 € | 1.320,57 €
+ | Supervisor | 815,12 € | 111,72 € | 163,73 € | 213,50 € | 1.304,07 €
+ | Encargado de Grupo | 787,45 € | 111,62 € | 158,91 € | 213,50 € | 1.271,48 €
+ | Responsable de Equipo | 775,82 € | 111,61 € | 156,90 € | 213,50 € | 1.257,83 €
+Grupo IV | Conductor Limpiador | 795,55 € | 111,66 € | 160,34 € | 213,50 € | 1.281,05 €
+ | Conductor / Especialista | 782,20 € | 111,63 € | 158,01 € | 213,50 € | 1.265,34 €
+ | Peón Especialista | 772,97 € | 111,60 € | 156,43 € | 213,50 € | 1.254,50 €
+ | Limpiador / Peón | 753,79 € | 111,55 € | 153,10 € | 213,50 € | 1.231,94 €
