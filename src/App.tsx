@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis } from 'recharts';
 
 interface SavedProfile {
   id: string;
@@ -1496,33 +1496,95 @@ const App: React.FC = () => {
                 </div>
 
                 {selectedComparisonIds.length >= 2 && (
-                  <div className="glass-card" style={{ marginBottom: '2.5rem' }}>
-                    <ResponsiveContainer width="100%" height={300}>
-                      <BarChart data={selectedComparisonIds.map(id => {
-                        const cat = categories.find(c => c.id === id);
-                        if (!cat) return null;
-                        const res = calculatePayroll({ ...payrollInput, categoryId: cat.id }, cat, config);
-                        return { name: cat.nombre, Bruto: res.bruto, Neto: res.neto, Coste: res.costeEmpresa.total };
-                      }).filter(Boolean)}>
-                        <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-                        <XAxis dataKey="name" stroke="var(--text-muted)" fontSize={12} tickLine={false} axisLine={false} />
-                        <YAxis stroke="var(--text-muted)" fontSize={12} tickLine={false} axisLine={false} />
-                        <Tooltip
-                          contentStyle={{
-                            background: 'var(--bg-card)',
-                            border: '1px solid var(--border)',
-                            borderRadius: '12px',
-                            color: 'var(--text-main)',
-                            boxShadow: 'var(--shadow-lg)'
-                          }}
-                          itemStyle={{ color: 'var(--text-main)' }}
-                        />
-                        <Legend wrapperStyle={{ paddingTop: '20px', color: 'var(--text-main)' }} />
-                        <Bar dataKey="Bruto" fill="var(--warning)" radius={[4, 4, 0, 0]} />
-                        <Bar dataKey="Neto" fill="var(--primary)" radius={[4, 4, 0, 0]} />
-                        <Bar dataKey="Coste" fill="var(--text-muted)" opacity={0.3} radius={[4, 4, 0, 0]} />
-                      </BarChart>
-                    </ResponsiveContainer>
+                  <div className="grid-main" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
+                    {/* Bar Chart Optimizado */}
+                    <div className="glass-card" style={{ padding: '1.5rem' }}>
+                      <h4 style={{ marginBottom: '1rem', color: 'var(--text-muted)', fontSize: '0.8rem', textAlign: 'center' }}>COMPARATIVA DE IMPORTES (€)</h4>
+                      <ResponsiveContainer width="100%" height={250}>
+                        <BarChart
+                          data={selectedComparisonIds.map(id => {
+                            const cat = categories.find(c => c.id === id);
+                            if (!cat) return null;
+                            const res = calculatePayroll({ ...payrollInput, categoryId: cat.id }, cat, config);
+                            return { name: cat.nombre.substring(0, 15) + (cat.nombre.length > 15 ? '...' : ''), Bruto: res.bruto, Neto: res.neto, Coste: res.costeEmpresa.total };
+                          }).filter(Boolean)}
+                          margin={{ top: 5, right: 10, left: 10, bottom: 5 }}
+                        >
+                          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} opacity={0.5} />
+                          <XAxis dataKey="name" stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} />
+                          <YAxis stroke="var(--text-muted)" fontSize={10} tickLine={false} axisLine={false} />
+                          <Tooltip
+                            contentStyle={{
+                              background: 'var(--bg-card)',
+                              border: '1px solid var(--border)',
+                              borderRadius: '12px',
+                              color: 'var(--text-main)',
+                              boxShadow: 'var(--shadow-lg)',
+                              fontSize: '0.8rem'
+                            }}
+                            cursor={{ fill: 'var(--primary-glow)', opacity: 0.1 }}
+                          />
+                          <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '0.75rem' }} />
+                          <Bar dataKey="Bruto" fill="var(--warning)" radius={[4, 4, 0, 0]} maxBarSize={30} />
+                          <Bar dataKey="Neto" fill="var(--primary)" radius={[4, 4, 0, 0]} maxBarSize={30} />
+                          <Bar dataKey="Coste" fill="var(--text-muted)" opacity={0.4} radius={[4, 4, 0, 0]} maxBarSize={30} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+
+                    {/* Radar Chart (Equilibrio) */}
+                    <div className="glass-card" style={{ padding: '1.5rem' }}>
+                      <h4 style={{ marginBottom: '1rem', color: 'var(--text-muted)', fontSize: '0.8rem', textAlign: 'center' }}>EQUILIBRIO SALARIAL / COSTE</h4>
+                      <ResponsiveContainer width="100%" height={250}>
+                        <RadarChart cx="50%" cy="50%" outerRadius="70%" data={[
+                          { subject: 'Sueldo Neto', fullMark: 3000 },
+                          { subject: 'Sueldo Bruto', fullMark: 4000 },
+                          { subject: 'Coste Empresa', fullMark: 5000 },
+                          { subject: 'Seg. Social', fullMark: 1500 },
+                          { subject: 'Antigüedad', fullMark: 500 }
+                        ].map(item => {
+                          const dataPoint: any = { subject: item.subject };
+                          selectedComparisonIds.forEach((id, index) => {
+                            const cat = categories.find(c => c.id === id);
+                            if (cat) {
+                              const res = calculatePayroll({ ...payrollInput, categoryId: cat.id }, cat, config);
+                              if (item.subject === 'Sueldo Neto') dataPoint[`cat${index}`] = res.neto;
+                              if (item.subject === 'Sueldo Bruto') dataPoint[`cat${index}`] = res.bruto;
+                              if (item.subject === 'Coste Empresa') dataPoint[`cat${index}`] = res.costeEmpresa.total;
+                              if (item.subject === 'Seg. Social') dataPoint[`cat${index}`] = res.costeEmpresa.seguridadSocial;
+                              if (item.subject === 'Antigüedad') dataPoint[`cat${index}`] = res.devengos.find(d => d.concept.includes('Antigüedad'))?.amount || 0;
+                            }
+                          });
+                          return dataPoint;
+                        })}>
+                          <PolarGrid stroke="var(--border)" />
+                          <PolarAngleAxis dataKey="subject" tick={{ fill: 'var(--text-muted)', fontSize: 9 }} />
+                          <PolarRadiusAxis angle={30} domain={[0, 'auto']} tick={false} axisLine={false} />
+                          {selectedComparisonIds.map((id, index) => {
+                            const colors = ['#3b82f6', '#f59e0b', '#10b981', '#ef4444', '#8b5cf6'];
+                            return (
+                              <Radar
+                                key={id}
+                                name={categories.find(c => c.id === id)?.nombre || `Cat ${index + 1}`}
+                                dataKey={`cat${index}`}
+                                stroke={colors[index % colors.length]}
+                                fill={colors[index % colors.length]}
+                                fillOpacity={0.2}
+                              />
+                            );
+                          })}
+                          <Tooltip
+                            contentStyle={{
+                              background: 'var(--bg-card)',
+                              border: '1px solid var(--border)',
+                              borderRadius: '12px',
+                              fontSize: '0.8rem'
+                            }}
+                          />
+                          <Legend wrapperStyle={{ paddingTop: '10px', fontSize: '0.75rem' }} />
+                        </RadarChart>
+                      </ResponsiveContainer>
+                    </div>
                   </div>
                 )}
 
