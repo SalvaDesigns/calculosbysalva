@@ -1450,8 +1450,14 @@ const App: React.FC = () => {
                       <h4 style={{ color: 'var(--text-main)' }}>{cat.nombre}</h4>
                       <div style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--primary)' }}>{res.neto.toFixed(2)}€ <small>Neto</small></div>
                       <div className="metric-list">
-                        <div className="metric-item"><span>Bruto</span><span>{res.bruto.toFixed(2)}€</span></div>
-                        <div className="metric-item"><span>Coste</span><span>{res.costeEmpresa.total.toFixed(2)}€</span></div>
+                        <div className="metric-item">
+                          <span className="metric-label">Bruto</span>
+                          <span className="metric-value">{res.bruto.toFixed(2)}€</span>
+                        </div>
+                        <div className="metric-item">
+                          <span className="metric-label">Coste</span>
+                          <span className="metric-value">{res.costeEmpresa.total.toFixed(2)}€</span>
+                        </div>
                       </div>
                     </div>
                   );
