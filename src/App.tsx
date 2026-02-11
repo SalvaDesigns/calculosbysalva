@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { jsPDF } from 'jspdf';
 import autoTable from 'jspdf-autotable';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 interface SavedProfile {
   id: string;
@@ -1376,6 +1376,48 @@ const App: React.FC = () => {
                           <span className="metric-label">Factor multiplicador bruto</span>
                           <span className="metric-value">{(result.costeEmpresa.total / result.bruto).toFixed(2)}x</span>
                         </div>
+                      </div>
+
+                      <div style={{ marginTop: '2.5rem', height: '240px' }}>
+                        <h4 style={{ marginBottom: '1rem', color: 'var(--text-main)', fontSize: '0.9rem', textAlign: 'center' }}>DISTRIBUCIÓN DEL COSTE TOTAL</h4>
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={[
+                                { name: 'Sueldo Bruto', value: result.bruto },
+                                { name: 'Seguridad Social', value: result.costeEmpresa.seguridadSocial },
+                                { name: 'Provisiones', value: result.costeEmpresa.indemnizacionProp + (result.costeEmpresa.total - result.bruto - result.costeEmpresa.seguridadSocial - 57) },
+                                { name: 'Gastos Gestión', value: 57 }
+                              ]}
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={80}
+                              paddingAngle={5}
+                              dataKey="value"
+                            >
+                              {[
+                                'var(--primary)',
+                                'var(--warning)',
+                                'var(--success)',
+                                'var(--text-muted)'
+                              ].map((color, index) => (
+                                <Cell key={`cell-${index}`} fill={color} stroke="none" />
+                              ))}
+                            </Pie>
+                            <Tooltip
+                              contentStyle={{
+                                background: 'var(--bg-card)',
+                                border: '1px solid var(--border)',
+                                borderRadius: '12px',
+                                boxShadow: 'var(--shadow-lg)'
+                              }}
+                              itemStyle={{ color: 'var(--text-main)', fontSize: '0.8rem' }}
+                              formatter={(value: number) => `${value.toFixed(2)}€`}
+                            />
+                            <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: '0.75rem' }} />
+                          </PieChart>
+                        </ResponsiveContainer>
                       </div>
                     </div>
                   </div>
