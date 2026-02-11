@@ -1437,7 +1437,7 @@ const App: React.FC = () => {
                   </div>
                 )}
 
-                <div className="grid-main">
+                <div className="grid-comparison">
                   {categories.map(cat => {
                     const res = calculatePayroll({ ...payrollInput, categoryId: cat.id }, cat, config);
                     const isSelected = selectedComparisonIds.includes(cat.id);

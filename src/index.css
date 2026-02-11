@@ -470,6 +470,12 @@ h6 {
   gap: 1.25rem;
 }
 
+.grid-comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
 .grid-simulator {
   display: grid;
   grid-template-columns: 380px 1fr;
