@@ -366,8 +366,8 @@ h6 {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-  margin-top: 1.5rem;
+  gap: 4px;
+  margin-top: 0.75rem;
 }
 
 .calendar-day {
@@ -563,15 +563,15 @@ h6 {
 }
 
 .input-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .input-group label {
   display: block;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--text-muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -619,11 +619,11 @@ select:focus {
 }
 
 .payroll-table td {
-  padding: 0.65rem 0.75rem;
+  padding: 0.45rem 0.6rem;
   background: rgba(255, 255, 255, 0.01);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-main);
 }
 
@@ -694,7 +694,7 @@ select:focus {
 .metric-item {
   display: flex;
   justify-content: space-between;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.75rem;
   background: rgba(255, 255, 255, 0.015);
   border-radius: 10px;
   border: 1px solid var(--border);

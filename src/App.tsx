@@ -794,8 +794,8 @@ const App: React.FC = () => {
                   <label htmlFor="pagasProrrateadas" style={{ marginBottom: 0 }}>¿Prorratear Pagas Extras?</label>
                 </div>
 
-                <div style={{ marginTop: '2rem' }}>
-                  <h4 style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '1rem' }}>Planificador Visual (Turnos/Vacaciones)</h4>
+                <div style={{ marginTop: '1.25rem' }}>
+                  <h4 style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>Planificador Visual (Turnos/Vacaciones)</h4>
                   <div className="calendar-grid">
                     {Array.from({ length: 31 }).map((_, i) => (
                       <div
@@ -819,8 +819,8 @@ const App: React.FC = () => {
                   </div>
                 </div>
 
-                <div style={{ marginTop: '2rem', padding: '1.25rem', background: 'rgba(59,130,246,0.03)', borderRadius: '16px', border: '1px solid var(--primary-glow)' }}>
-                  <h4 style={{ fontSize: '0.85rem', color: 'var(--primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div style={{ marginTop: '1.25rem', padding: '1rem', background: 'rgba(59,130,246,0.03)', borderRadius: '16px', border: '1px solid var(--primary-glow)' }}>
+                  <h4 style={{ fontSize: '0.85rem', color: 'var(--primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <UserPlus size={16} /> Conceptos Personalizados (Mejoras/Incentivos)
                   </h4>
                   <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
@@ -908,7 +908,7 @@ const App: React.FC = () => {
                           <td style={{ textAlign: 'right', color: 'var(--danger)' }}>-{d.amount.toFixed(2)}€</td>
                         </tr>
                       ))}
-                      <tr className="row-highlight" style={{ fontSize: '1.25rem' }}>
+                      <tr className="row-highlight" style={{ fontSize: '1.1rem' }}>
                         <td><strong style={{ color: 'var(--primary)' }}>LÍQUIDO A PERCIBIR</strong></td>
                         <td style={{ textAlign: 'right', fontWeight: 'bold', color: 'var(--primary)' }}>{result.neto.toFixed(2)}€</td>
                       </tr>
