@@ -454,8 +454,8 @@ const App: React.FC = () => {
         <div className="user-profile">
           <img src="user-photo.png" alt="Salvador" className="user-avatar-img" />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-main)' }}>Salvador S.M.</span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{isAdmin ? 'Administrador' : 'Usuario'}</span>
+            <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Salvador S.M.</span>
+            <span style={{ fontSize: '0.7rem' }}>{isAdmin ? 'Administrador' : 'Usuario'}</span>
           </div>
         </div>
       </aside>
@@ -687,7 +687,7 @@ const App: React.FC = () => {
               </h4>
               <div className="countdown-box">
                 <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>PRÓXIMO AUMENTO EN</div>
-                <div style={{ fontSize: '1.75rem', fontWeight: '800', color: '#fff' }}>{result.nextTrienio.mesesRestantes} MESES</div>
+                <div style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-main)' }}>{result.nextTrienio.mesesRestantes} MESES</div>
                 <div style={{ fontSize: '0.85rem', color: 'var(--primary)', marginTop: '0.5rem' }}>
                   +{result.nextTrienio.aumentoImporte.toFixed(2)}€ al mes
                 </div>
@@ -893,9 +893,9 @@ const App: React.FC = () => {
                         <td style={{ textAlign: 'right' }}>{d.amount.toFixed(2)}€</td>
                       </tr>
                     ))}
-                    <tr style={{ background: 'rgba(255,255,255,0.03)' }}>
-                      <td><strong style={{ color: '#fff' }}>TOTAL BRUTO</strong></td>
-                      <td style={{ textAlign: 'right', fontWeight: 'bold', color: '#fff' }}>{result.bruto.toFixed(2)}€</td>
+                    <tr style={{ background: 'var(--primary-glow)' }}>
+                      <td><strong style={{ color: 'var(--primary)' }}>TOTAL BRUTO</strong></td>
+                      <td style={{ textAlign: 'right', fontWeight: 'bold', color: 'var(--primary)' }}>{result.bruto.toFixed(2)}€</td>
                     </tr>
                     <tr style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
                       <td>Base de Cotización</td>
@@ -1024,7 +1024,7 @@ const App: React.FC = () => {
                             e.currentTarget.style.background = 'rgba(255,255,255,0.02)';
                           }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                            <h5 title={l.concepto} style={{ color: '#fff', fontSize: '1.05rem', fontWeight: '600', margin: 0, paddingRight: '1rem', flex: 1 }}>{l.concepto}</h5>
+                            <h5 title={l.concepto} style={{ color: 'var(--text-main)', fontSize: '1.05rem', fontWeight: '600', margin: 0, paddingRight: '1rem', flex: 1 }}>{l.concepto}</h5>
                             <div style={{
                               background: 'var(--primary-glow)',
                               color: 'var(--primary)',
@@ -1055,7 +1055,7 @@ const App: React.FC = () => {
               {consultasSubTab === 'calculadora' && (
                 <div style={{ animation: 'fadeIn 0.3s ease' }}>
                   <div className="glass-card" style={{ background: 'var(--primary-glow)', border: '1px solid var(--primary)', maxWidth: '800px', margin: '0 auto' }}>
-                    <h4 style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#fff' }}>
+                    <h4 style={{ marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--primary)' }}>
                       <Calculator size={18} /> Calculadora de Vacaciones Devengadas
                     </h4>
                     <div className="grid-main" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '1.5rem' }}>
@@ -1129,7 +1129,7 @@ const App: React.FC = () => {
                           }}>
                             {c.capitulo}
                           </div>
-                          <h5 style={{ color: '#fff', fontSize: '1rem', fontWeight: '700', margin: 0 }}>{c.titulo}</h5>
+                          <h5 style={{ color: 'var(--text-main)', fontSize: '1rem', fontWeight: '700', margin: 0 }}>{c.titulo}</h5>
                         </div>
                         <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.6', margin: 0 }}>
                           {c.resumen}
@@ -1176,9 +1176,9 @@ const App: React.FC = () => {
                     style={{
                       padding: '0.4rem 1rem',
                       borderRadius: '8px',
-                      background: 'var(--primary-glow)',
+                      background: 'var(--bg-card)',
                       border: '1px solid var(--primary)',
-                      color: '#fff',
+                      color: 'var(--text-main)',
                       fontWeight: 'bold',
                       cursor: 'pointer'
                     }}
@@ -1346,7 +1346,7 @@ const App: React.FC = () => {
                       </tbody>
                     </table>
 
-                    <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'rgba(255,255,255,0.02)', borderRadius: '15px', border: '1px solid var(--border)' }}>
+                    <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--bg-card)', borderRadius: '15px', border: '1px solid var(--border)' }}>
                       <h4 style={{ color: 'var(--warning)', marginBottom: '1rem', fontSize: '0.9rem' }}>Gastos de Gestión e Indirectos (Estimaciones)</h4>
                       <div className="metric-list">
                         <div className="metric-item">
@@ -1357,7 +1357,7 @@ const App: React.FC = () => {
                           <span className="metric-label">Seguros y Gestión Laboral</span>
                           <span className="metric-value">12.00€ / mes</span>
                         </div>
-                        <div className="metric-item" style={{ borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '0.5rem', paddingTop: '0.5rem' }}>
+                        <div className="metric-item" style={{ borderTop: '1px solid var(--border)', marginTop: '0.5rem', paddingTop: '0.5rem' }}>
                           <span className="metric-label"><strong>COSTE EXTERNO TOTAL</strong></span>
                           <span className="metric-value"><strong>{(result.costeEmpresa.total + 57).toFixed(2)}€</strong></span>
                         </div>
