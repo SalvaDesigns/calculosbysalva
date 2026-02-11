@@ -1413,7 +1413,7 @@ const App: React.FC = () => {
                                 boxShadow: 'var(--shadow-lg)'
                               }}
                               itemStyle={{ color: 'var(--text-main)', fontSize: '0.8rem' }}
-                              formatter={(value: number) => `${value.toFixed(2)}€`}
+                              formatter={(value: any) => [`${parseFloat(value).toFixed(2)}€`]}
                             />
                             <Legend verticalAlign="bottom" height={36} wrapperStyle={{ fontSize: '0.75rem' }} />
                           </PieChart>
