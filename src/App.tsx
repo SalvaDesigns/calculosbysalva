@@ -744,7 +744,7 @@ const App: React.FC = () => {
           {activeTab === 'payroll' && (
             <div className="grid-simulator">
               <section className="glass-card">
-                <h3 style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}><Calculator size={20} /> DATOS DEL EMPLEADO</h3>
+                <h3 style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem', marginBottom: '1rem' }}><Calculator size={20} /> DATOS DEL EMPLEADO</h3>
                 <div className="input-group">
                   <label>Categoría Profesional</label>
                   <select name="categoryId" value={payrollInput.categoryId} onChange={handleInputChange}>
@@ -794,8 +794,8 @@ const App: React.FC = () => {
                   <label htmlFor="pagasProrrateadas" style={{ marginBottom: 0 }}>¿Prorratear Pagas Extras?</label>
                 </div>
 
-                <div style={{ marginTop: '1.25rem' }}>
-                  <h4 style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>Planificador Visual (Turnos/Vacaciones)</h4>
+                <div style={{ marginTop: '1rem' }}>
+                  <h4 style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>Planificador Visual (Turnos/Vacaciones)</h4>
                   <div className="calendar-grid">
                     {Array.from({ length: 31 }).map((_, i) => (
                       <div
@@ -819,8 +819,8 @@ const App: React.FC = () => {
                   </div>
                 </div>
 
-                <div style={{ marginTop: '1.25rem', padding: '1rem', background: 'rgba(59,130,246,0.03)', borderRadius: '16px', border: '1px solid var(--primary-glow)' }}>
-                  <h4 style={{ fontSize: '0.85rem', color: 'var(--primary)', marginBottom: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div style={{ marginTop: '1rem', padding: '0.75rem', background: 'rgba(59,130,246,0.03)', borderRadius: '16px', border: '1px solid var(--primary-glow)' }}>
+                  <h4 style={{ fontSize: '0.8rem', color: 'var(--primary)', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <UserPlus size={16} /> Conceptos Personalizados (Mejoras/Incentivos)
                   </h4>
                   <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
@@ -878,7 +878,7 @@ const App: React.FC = () => {
               </section>
 
               <section className="glass-card">
-                <h3 style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1rem' }}><FileText size={20} /> PREVISIÓN DE NÓMINA</h3>
+                <h3 style={{ borderBottom: '1px solid var(--border)', paddingBottom: '0.75rem', marginBottom: '1rem' }}><FileText size={20} /> PREVISIÓN DE NÓMINA</h3>
                 {result && (
                   <table className="payroll-table">
                     <thead>
@@ -908,7 +908,7 @@ const App: React.FC = () => {
                           <td style={{ textAlign: 'right', color: 'var(--danger)' }}>-{d.amount.toFixed(2)}€</td>
                         </tr>
                       ))}
-                      <tr className="row-highlight" style={{ fontSize: '1.1rem' }}>
+                      <tr className="row-highlight" style={{ fontSize: '1.05rem' }}>
                         <td><strong style={{ color: 'var(--primary)' }}>LÍQUIDO A PERCIBIR</strong></td>
                         <td style={{ textAlign: 'right', fontWeight: 'bold', color: 'var(--primary)' }}>{result.neto.toFixed(2)}€</td>
                       </tr>
