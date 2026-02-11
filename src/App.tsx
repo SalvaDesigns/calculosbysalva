@@ -407,7 +407,7 @@ const App: React.FC = () => {
             </button>
           </form>
           <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-            <img src="/apeles-logo.jpg" alt="Logo" style={{ maxHeight: '40px', opacity: 0.6 }} />
+            <img src="apeles-logo.jpg" alt="Logo" style={{ maxHeight: '40px', opacity: 0.6 }} />
           </div>
         </div>
       </div>
@@ -452,7 +452,7 @@ const App: React.FC = () => {
 
 
         <div className="user-profile">
-          <img src="/user-photo.png" alt="Salvador" className="user-avatar-img" />
+          <img src="user-photo.png" alt="Salvador" className="user-avatar-img" />
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <span style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-main)' }}>Salvador S.M.</span>
             <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{isAdmin ? 'Administrador' : 'Usuario'}</span>
