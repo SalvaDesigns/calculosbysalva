@@ -1414,14 +1414,23 @@ const App: React.FC = () => {
                       const res = calculatePayroll({ ...payrollInput, categoryId: cat.id }, cat, config);
                       return { name: cat.nombre, Bruto: res.bruto, Neto: res.neto, Coste: res.costeEmpresa.total };
                     }).filter(Boolean)}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" />
-                      <XAxis dataKey="name" stroke="var(--text-muted)" />
-                      <YAxis stroke="var(--text-muted)" />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="Bruto" fill="var(--warning)" />
-                      <Bar dataKey="Neto" fill="var(--primary)" />
-                      <Bar dataKey="Coste" fill="rgba(255,255,255,0.2)" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
+                      <XAxis dataKey="name" stroke="var(--text-muted)" fontSize={12} tickLine={false} axisLine={false} />
+                      <YAxis stroke="var(--text-muted)" fontSize={12} tickLine={false} axisLine={false} />
+                      <Tooltip
+                        contentStyle={{
+                          background: 'var(--bg-card)',
+                          border: '1px solid var(--border)',
+                          borderRadius: '12px',
+                          color: 'var(--text-main)',
+                          boxShadow: 'var(--shadow-lg)'
+                        }}
+                        itemStyle={{ color: 'var(--text-main)' }}
+                      />
+                      <Legend wrapperStyle={{ paddingTop: '20px', color: 'var(--text-main)' }} />
+                      <Bar dataKey="Bruto" fill="var(--warning)" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="Neto" fill="var(--primary)" radius={[4, 4, 0, 0]} />
+                      <Bar dataKey="Coste" fill="var(--text-muted)" opacity={0.3} radius={[4, 4, 0, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>

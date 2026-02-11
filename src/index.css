@@ -409,7 +409,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at center, #f8fafc 0%, #e2e8f0 100%);
+  background: var(--bg-main);
 }
 
 .login-box {
@@ -559,7 +559,7 @@ input:focus,
 select:focus {
   outline: none;
   border-color: var(--primary);
-  background: #fff;
+  background: var(--bg-card);
   box-shadow: 0 0 0 4px var(--primary-glow);
 }
 
