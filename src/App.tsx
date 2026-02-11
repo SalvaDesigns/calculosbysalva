@@ -115,6 +115,13 @@ const App: React.FC = () => {
     taxType: 'IGIC' as 'IVA' | 'IGIC'
   });
 
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [exportOptions, setExportOptions] = useState({
+    payroll: true,
+    costs: true,
+    severance: false
+  });
+
   // Handle Theme Change
   useEffect(() => {
     localStorage.setItem('payroll_theme', theme);
@@ -297,6 +304,7 @@ const App: React.FC = () => {
     if (!result) return;
     const doc = new jsPDF();
     const catName = categories.find(c => c.id === payrollInput.categoryId)?.nombre || 'Categoría';
+    let currentY = 50;
 
     // Header
     doc.setFontSize(22);
@@ -307,63 +315,102 @@ const App: React.FC = () => {
     doc.setTextColor(100);
     doc.text(`Generado el: ${new Date().toLocaleString()}`, 105, 28, { align: 'center' });
 
-    // Employee Info
-    doc.setFontSize(14);
-    doc.setTextColor(0);
-    doc.text('RESUMEN DEL EMPLEADO', 20, 45);
+    // Seccion Nomina
+    if (exportOptions.payroll) {
+      doc.setFontSize(14);
+      doc.setTextColor(0);
+      doc.text('RESUMEN DE NÓMINA', 20, currentY - 5);
 
-    autoTable(doc, {
-      startY: 50,
-      head: [['Concepto', 'Detalle']],
-      body: [
-        ['Categoría', catName],
-        ['Jornada', `${payrollInput.jornadaSemanal}h / semana(${(payrollInput.jornadaSemanal / 40 * 100).toFixed(0)}%)`],
-        ['Fecha Alta', new Date(payrollInput.fechaAlta).toLocaleDateString()],
-        ['IRPF Aplicado', `${payrollInput.irpfManual}%`]
-      ]
-    });
+      autoTable(doc, {
+        startY: currentY,
+        head: [['Concepto', 'Detalle']],
+        body: [
+          ['Categoría', catName],
+          ['Jornada', `${payrollInput.jornadaSemanal}h / semana(${(payrollInput.jornadaSemanal / 40 * 100).toFixed(0)}%)`],
+          ['Fecha Alta', new Date(payrollInput.fechaAlta).toLocaleDateString()],
+          ['IRPF Aplicado', `${payrollInput.irpfManual}%`]
+        ]
+      });
 
-    // Payroll Table
-    doc.text('DETALLE DE NÓMINA MENSUAL', 20, (doc as any).lastAutoTable.finalY + 15);
-
-    autoTable(doc, {
-      startY: (doc as any).lastAutoTable.finalY + 20,
-      head: [['Concepto', 'Importe']],
-      body: [
-        ...result.devengos.map(d => [d.concept, `${d.amount.toFixed(2)}€`]),
-        ['TOTAL BRUTO', `${result.bruto.toFixed(2)}€`],
-        ...result.deducciones.map(d => [d.concept, `- ${d.amount.toFixed(2)}€`]),
-        ['LÍQUIDO A PERCIBIR', `${result.neto.toFixed(2)}€`]
-      ],
-      theme: 'striped',
-      headStyles: { fillColor: [14, 165, 233] },
-      didParseCell: (data) => {
-        if (data.row.index === result.devengos.length + result.deducciones.length + 1) {
-          data.cell.styles.fontStyle = 'bold';
-          data.cell.styles.textColor = [14, 165, 233];
+      autoTable(doc, {
+        startY: (doc as any).lastAutoTable.finalY + 10,
+        head: [['Concepto de Nómina', 'Importe']],
+        body: [
+          ...result.devengos.map(d => [d.concept, `${d.amount.toFixed(2)}€`]),
+          ['TOTAL BRUTO', `${result.bruto.toFixed(2)}€`],
+          ...result.deducciones.map(d => [d.concept, `- ${d.amount.toFixed(2)}€`]),
+          ['LÍQUIDO A PERCIBIR', `${result.neto.toFixed(2)}€`]
+        ],
+        theme: 'striped',
+        headStyles: { fillColor: [14, 165, 233] },
+        didParseCell: (data) => {
+          if (data.row.index === result.devengos.length + result.deducciones.length + 1) {
+            data.cell.styles.fontStyle = 'bold';
+            data.cell.styles.textColor = [14, 165, 233];
+          }
         }
-      }
-    });
+      });
+      currentY = (doc as any).lastAutoTable.finalY + 25;
+    }
 
-    // Company Cost
-    doc.text('ANÁLISIS DE COSTE EMPRESA', 20, (doc as any).lastAutoTable.finalY + 15);
+    // Seccion Costes
+    if (exportOptions.costs) {
+      if (currentY > 220) { doc.addPage(); currentY = 30; }
+      doc.setFontSize(14);
+      doc.setTextColor(0);
+      doc.text('ANÁLISIS DE COSTE EMPRESA', 20, currentY - 5);
 
-    autoTable(doc, {
-      startY: (doc as any).lastAutoTable.finalY + 20,
-      head: [['Métrica', 'Mensual', 'Anual (Proyectado)']],
-      body: [
-        ['Salario Bruto', `${result.bruto.toFixed(2)}€`, `${(result.bruto * 12).toFixed(2)}€`],
-        ['Cargas Sociales', `${result.costeEmpresa.seguridadSocial.toFixed(2)}€`, '---'],
-        ['COSTE TOTAL', `${result.costeEmpresa.total.toFixed(2)}€`, `${result.costeEmpresa.anual.toFixed(2)}€`]
-      ],
-      headStyles: { fillColor: [245, 158, 11] }
-    });
+      autoTable(doc, {
+        startY: currentY,
+        head: [['Métrica de Coste', 'Mensual', 'Anual (Proyectado)']],
+        body: [
+          ['Salario Bruto', `${result.bruto.toFixed(2)}€`, `${(result.bruto * 12).toFixed(2)}€`],
+          ['Seguridad Social Empresa', `${result.costeEmpresa.seguridadSocial.toFixed(2)}€`, '---'],
+          ['Provisiones (Indemn.)', `${result.costeEmpresa.indemnizacionProp.toFixed(2)}€`, '---'],
+          ['COSTE TOTAL EMPRESA', `${result.costeEmpresa.total.toFixed(2)}€`, `${result.costeEmpresa.anual.toFixed(2)}€`]
+        ],
+        headStyles: { fillColor: [245, 158, 11] }
+      });
+      currentY = (doc as any).lastAutoTable.finalY + 25;
+    }
+
+    // Seccion Finiquito
+    if (exportOptions.severance) {
+      if (currentY > 200) { doc.addPage(); currentY = 30; }
+      const category = categories.find(c => c.id === payrollInput.categoryId) || categories[0];
+      const sev = calculateSeverance(finiquitoInput, result, category);
+
+      doc.setFontSize(14);
+      doc.setTextColor(0);
+      doc.text('SIMULACIÓN DE FINIQUITO', 20, currentY - 5);
+
+      autoTable(doc, {
+        startY: currentY,
+        head: [['Concepto Liquidación', 'Detalle / Importe']],
+        body: [
+          ['Fecha de Baja', new Date(finiquitoInput.fechaBaja).toLocaleDateString()],
+          ['Antigüedad', `${sev.antiguedadAnos.toFixed(2)} años`],
+          ['Vacaciones Pendientes', `${sev.diasVacaciones} días (${sev.importeVacaciones.toFixed(2)}€)`],
+          ...sev.prorrataPagas.map(p => [p.concept, `${p.amount.toFixed(2)}€`]),
+          ['Indemnización', `${sev.indemnizacion.toFixed(2)}€`],
+          ['TOTAL LÍQUIDO A PERCIBIR', `${sev.totalLiquido.toFixed(2)}€`]
+        ],
+        headStyles: { fillColor: [16, 185, 129] },
+        didParseCell: (data) => {
+          if (data.row.index === data.table.body.length - 1) {
+            data.cell.styles.fontStyle = 'bold';
+            data.cell.styles.textColor = [16, 185, 129];
+          }
+        }
+      });
+    }
 
     doc.setFontSize(8);
     doc.setTextColor(150);
     doc.text('Este documento es un simulador informativo basado en el Convenio de Limpieza de Tenerife.', 105, 285, { align: 'center' });
 
-    doc.save(`Nomina_${catName.replace(/\s+/g, '_')}.pdf`);
+    doc.save(`Informe_${catName.replace(/\s+/g, '_')}.pdf`);
+    setShowExportModal(false);
   };
 
   const handleLogin = (e: React.FormEvent) => {
@@ -605,7 +652,7 @@ const App: React.FC = () => {
             }}>
               <Save size={18} /> <span>Guardar Escenario</span>
             </button>
-            <button className="header-action-btn primary" onClick={generatePDF}>
+            <button className="header-action-btn primary" onClick={() => setShowExportModal(true)}>
               <Download size={18} /> <span>Exportar Informe PDF</span>
             </button>
           </div>
@@ -1791,6 +1838,71 @@ const App: React.FC = () => {
           }
         </div>
       </main>
+
+      {showExportModal && (
+        <div className="modal-overlay" onClick={() => setShowExportModal(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--primary)' }}>
+              <Download size={24} /> CONFIGURAR EXPORTACIÓN PDF
+            </h3>
+
+            <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
+              Seleccione los módulos que desea incluir en su informe personalizado:
+            </p>
+
+            <div className={`export-option-card ${exportOptions.payroll ? 'selected' : ''}`}
+              onClick={() => setExportOptions({ ...exportOptions, payroll: !exportOptions.payroll })}>
+              <input type="checkbox" checked={exportOptions.payroll} readOnly />
+              <div>
+                <div style={{ fontWeight: 'bold', fontSize: '1rem' }}>Informe de Nómina</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Detalle de devengos, IRPF y líquido mensual.</div>
+              </div>
+            </div>
+
+            <div className={`export-option-card ${exportOptions.costs ? 'selected' : ''}`}
+              onClick={() => setExportOptions({ ...exportOptions, costs: !exportOptions.costs })}>
+              <input type="checkbox" checked={exportOptions.costs} readOnly />
+              <div>
+                <div style={{ fontWeight: 'bold', fontSize: '1rem' }}>Análisis de Costes Empresa</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Desglose de SS, provisiones y coste total anual.</div>
+              </div>
+            </div>
+
+            <div className={`export-option-card ${exportOptions.severance ? 'selected' : ''}`}
+              onClick={() => setExportOptions({ ...exportOptions, severance: !exportOptions.severance })}>
+              <input type="checkbox" checked={exportOptions.severance} readOnly />
+              <div>
+                <div style={{ fontWeight: 'bold', fontSize: '1rem' }}>Simulación de Finiquito</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Cálculo de vacaciones, indemnización y liquidación.</div>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginTop: '2rem' }}>
+              <button className="btn-nav" style={{ width: '100%' }} onClick={() => {
+                setExportOptions({ payroll: true, costs: true, severance: true });
+                setTimeout(generatePDF, 100);
+              }}>
+                Informe Completo
+              </button>
+              <button
+                className="btn-primary"
+                style={{ width: '100%' }}
+                disabled={!exportOptions.payroll && !exportOptions.costs && !exportOptions.severance}
+                onClick={generatePDF}
+              >
+                Generar Seleccionados
+              </button>
+            </div>
+
+            <button
+              style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '1rem', cursor: 'pointer', width: '100%', textAlign: 'center' }}
+              onClick={() => setShowExportModal(false)}
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
     </div >
   );
 };
