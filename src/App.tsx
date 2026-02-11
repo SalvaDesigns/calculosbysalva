@@ -614,15 +614,15 @@ const App: React.FC = () => {
         {activeTab === 'dashboard' && result && (
           <div className="grid-main">
             <div className="glass-card kpi-card">
-              <div className="kpi-label">Líquido Mensual Trabajador</div>
-              <div className="kpi-value">{result.neto.toFixed(2)}€</div>
+              <div className="kpi-label" style={{ color: 'var(--text-muted)' }}>Líquido Mensual Trabajador</div>
+              <div className="kpi-value" style={{ color: 'var(--text-main)' }}>{result.neto.toFixed(2)}€</div>
               <div className="status-badge status-success" style={{ alignSelf: 'center' }}>
                 <CheckCircle2 size={14} /> Salario Neto Estimado
               </div>
             </div>
             <div className="glass-card kpi-card">
-              <div className="kpi-label">Coste Total Empresa (Mes)</div>
-              <div className="kpi-value">{result.costeEmpresa.total.toFixed(2)}€</div>
+              <div className="kpi-label" style={{ color: 'var(--text-muted)' }}>Coste Total Empresa (Mes)</div>
+              <div className="kpi-value" style={{ color: 'var(--text-main)' }}>{result.costeEmpresa.total.toFixed(2)}€</div>
               <div className="status-badge status-warning" style={{ alignSelf: 'center' }}>
                 <Briefcase size={14} /> Incluye provisiones
               </div>
@@ -1447,7 +1447,7 @@ const App: React.FC = () => {
                       style={{ border: isSelected ? '1px solid var(--primary)' : '1px solid var(--border)' }}
                       onClick={() => isSelected ? setSelectedComparisonIds(selectedComparisonIds.filter(id => id !== cat.id)) : setSelectedComparisonIds([...selectedComparisonIds, cat.id])}
                     >
-                      <h4>{cat.nombre}</h4>
+                      <h4 style={{ color: 'var(--text-main)' }}>{cat.nombre}</h4>
                       <div style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--primary)' }}>{res.neto.toFixed(2)}€ <small>Neto</small></div>
                       <div className="metric-list">
                         <div className="metric-item"><span>Bruto</span><span>{res.bruto.toFixed(2)}€</span></div>

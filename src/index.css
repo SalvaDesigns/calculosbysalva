@@ -349,6 +349,7 @@ body {
   border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.8rem;
+  color: var(--text-main);
   cursor: pointer;
   transition: var(--transition);
   position: relative;
@@ -400,6 +401,7 @@ body {
   word-break: break-word;
   line-height: 1.35;
   margin-bottom: 0.5rem;
+  color: var(--text-main);
 }
 
 /* Login Screen */
@@ -585,6 +587,7 @@ select:focus {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
   font-size: 0.9rem;
+  color: var(--text-main);
 }
 
 .payroll-table td:first-child {
@@ -668,6 +671,7 @@ select:focus {
 .metric-value {
   font-size: 0.85rem;
   font-weight: 600;
+  color: var(--text-main);
 }
 
 .simulator-range {
