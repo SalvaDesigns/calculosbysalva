@@ -387,8 +387,8 @@ const App: React.FC = () => {
     return (
       <div className="login-screen">
         <div className="glass-card login-box">
-          <div className="brand" style={{ marginBottom: '2rem' }}>
-            <h1 style={{ textAlign: 'center' }}>CÁLCULOS <span>by SALVA</span></h1>
+          <div className="brand" style={{ marginBottom: '2.5rem' }}>
+            <h1>CÁLCULOS <span>by SALVA</span></h1>
           </div>
           <form onSubmit={handleLogin}>
             <div className="input-group">
@@ -418,7 +418,7 @@ const App: React.FC = () => {
     <div className={`app-wrapper theme-${theme}`}>
       <aside className="sidebar">
         <div className="brand">
-          <h1 style={{ color: 'var(--text-main)' }}>CÁLCULOS <span>by SALVA</span></h1>
+          <h1>CÁLCULOS <span>by SALVA</span></h1>
         </div>
 
         <nav className="sidebar-nav">

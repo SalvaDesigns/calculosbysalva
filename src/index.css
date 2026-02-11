@@ -27,19 +27,19 @@
 }
 
 .theme-dark {
-  --bg-main: #0a0a0f;
-  --bg-sidebar: #12121a;
-  --bg-card: #14141d;
-  --primary: #0ea5e9;
-  --primary-glow: rgba(14, 165, 233, 0.15);
-  --primary-gradient: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
-  --text-main: #f8fafc;
+  --bg-main: #0f172a;
+  --bg-sidebar: #1e293b;
+  --bg-card: #1e293b;
+  --primary: #38bdf8;
+  --primary-glow: rgba(56, 189, 248, 0.15);
+  --primary-gradient: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+  --text-main: #f1f5f9;
   --text-muted: #94a3b8;
   --text-sidebar: #ffffff;
-  --border: rgba(255, 255, 255, 0.12);
+  --border: rgba(255, 255, 255, 0.1);
   --shadow-sm: none;
-  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.8);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
 .theme-midnight {
@@ -191,15 +191,23 @@ body {
 }
 
 .brand h1 {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--text-sidebar);
   text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
 }
 
 .brand h1 span {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: var(--primary);
+  letter-spacing: 0.1em;
+  margin-top: 0.25rem;
+  opacity: 0.9;
 }
 
 .sidebar-nav {
