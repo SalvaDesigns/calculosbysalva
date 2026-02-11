@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import defaultData from './data_convenio_default.json';
-import { calculatePayroll, calculateSeverance } from './utils/payrollEngine';
+import { calculatePayroll, calculateSeverance, calculateSickLeave } from './utils/payrollEngine';
 import type { Category, PayrollInput, PayrollResult } from './utils/payrollEngine';
 import {
   Settings, Calculator, TrendingUp, FileText, LayoutDashboard, Briefcase, CheckCircle2, Timer, Activity, Percent, UserPlus, Save, Trash2, Download, ClipboardList, ChevronDown, User, Moon, Sun, Palette, Leaf, Sparkles, TreePine, CloudSun, Building2, Mountain
@@ -17,7 +17,7 @@ interface SavedProfile {
 }
 
 const App: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'payroll' | 'config' | 'costs' | 'consultas' | 'comparison' | 'finiquito' | 'tenders'>('payroll');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'payroll' | 'costs' | 'comparison' | 'finiquito' | 'absenteeism' | 'consultas' | 'tenders' | 'config'>('dashboard');
   const [theme, setTheme] = useState<'premium' | 'dark' | 'midnight' | 'emerald' | 'forest' | 'soft-gold' | 'corporate' | 'earth'>('premium');
   const [showThemes, setShowThemes] = useState(false);
   const [activeYear, setActiveYear] = useState<string>('2025');
@@ -114,12 +114,27 @@ const App: React.FC = () => {
     profitPercent: 6,
     taxType: 'IGIC' as 'IVA' | 'IGIC'
   });
-
   const [showExportModal, setShowExportModal] = useState(false);
   const [exportOptions, setExportOptions] = useState({
     payroll: true,
     costs: true,
     severance: false
+  });
+
+  // IRPF Assistant State
+  const [showIrpfAssistant, setShowIrpfAssistant] = useState(false);
+  const [irpfData, setIrpfData] = useState({
+    situacion: '1', // 1: Soltero/Divorciado, 2: Casado (cónyuge no gana >1500), 3: Otros
+    hijos: 0,
+    discapacidad: false
+  });
+
+  // Absenteeism State
+  const [itInput, setItInput] = useState({
+    tipo: 'comun' as 'comun' | 'profesional',
+    diasBaja: 5,
+    baseCotizacionMesAnterior: 0,
+    complementoConvenio: true
   });
 
   // Handle Theme Change
@@ -484,6 +499,9 @@ const App: React.FC = () => {
           <button className={`btn-nav ${activeTab === 'finiquito' ? 'active' : ''}`} onClick={() => setActiveTab('finiquito')}>
             <Timer size={18} /> <span>Simulador Finiquito</span>
           </button>
+          <button className={`btn-nav ${activeTab === 'absenteeism' ? 'active' : ''}`} onClick={() => setActiveTab('absenteeism')}>
+            <Activity size={20} /> <span>Absentismo / Bajas</span>
+          </button>
           <button className={`btn-nav ${activeTab === 'consultas' ? 'active' : ''}`} onClick={() => setActiveTab('consultas')}>
             <FileText size={20} /> <span>Convenio</span>
           </button>
@@ -819,7 +837,15 @@ const App: React.FC = () => {
 
                 <div className="grid-main" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                   <div className="input-group">
-                    <label>%IRPF Manual</label>
+                    <label style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      %IRPF Manual
+                      <span
+                        style={{ color: 'var(--primary)', cursor: 'pointer', fontSize: '0.7rem', textDecoration: 'underline' }}
+                        onClick={() => setShowIrpfAssistant(true)}
+                      >
+                        ¿Cuánto me toca?
+                      </span>
+                    </label>
                     <input type="number" name="irpfManual" value={payrollInput.irpfManual} onChange={handleInputChange} />
                   </div>
                   <div className="input-group">
@@ -1901,6 +1927,142 @@ const App: React.FC = () => {
         </div>
       </main>
 
+      {activeTab === 'absenteeism' && (
+        <div style={{ animation: 'fadeIn 0.3s ease' }}>
+          <div className="grid-simulator">
+            <section className="glass-card">
+              <h3 style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1rem', marginBottom: '1.5rem' }}>
+                <Activity size={24} color="var(--primary)" /> CÁLCULO DE BAJAS (IT)
+              </h3>
+
+              <div className="input-group">
+                <label>Tipo de Contingencia</label>
+                <select value={itInput.tipo} onChange={(e) => setItInput({ ...itInput, tipo: e.target.value as any })}>
+                  <option value="comun">Enfermedad Común / Accidente No Laboral</option>
+                  <option value="profesional">Accidente de Trabajo / Enf. Profesional</option>
+                </select>
+              </div>
+
+              <div className="grid-main" style={{ gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                <div className="input-group">
+                  <label>Duración de la Baja (Días)</label>
+                  <input type="number" value={itInput.diasBaja} onChange={(e) => setItInput({ ...itInput, diasBaja: parseInt(e.target.value) || 0 })} />
+                </div>
+                <div className="input-group">
+                  <label>Base Cotización Mes Anterior</label>
+                  <input type="number" value={itInput.baseCotizacionMesAnterior || (result?.baseCotizacion || 0)} onChange={(e) => setItInput({ ...itInput, baseCotizacionMesAnterior: parseFloat(e.target.value) || 0 })} />
+                </div>
+              </div>
+
+              <div className="input-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                <input type="checkbox" id="complementoIT" checked={itInput.complementoConvenio} onChange={(e) => setItInput({ ...itInput, complementoConvenio: e.target.checked })} style={{ width: 'auto' }} />
+                <label htmlFor="complementoIT" style={{ marginBottom: 0 }}>Aplicar Complemento 100% (Convenio Limpieza)</label>
+              </div>
+
+              <div style={{ marginTop: '2rem', padding: '1.5rem', background: 'var(--primary-glow)', borderRadius: '16px', border: '1px solid var(--primary)' }}>
+                <h4 style={{ color: 'var(--primary)', marginBottom: '1rem' }}>RESULTADO DE LA SIMULACIÓN</h4>
+                {(() => {
+                  const itRes = calculateSickLeave(itInput);
+                  return (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                      <div className="metric-list" style={{ gridTemplateColumns: '1fr' }}>
+                        <div className="metric-item">
+                          <span className="metric-label">Total a percibir por el trabajador:</span>
+                          <span className="metric-value" style={{ color: 'var(--success)', fontSize: '1.4rem' }}>{itRes.totalPercibido.toFixed(2)}€</span>
+                        </div>
+                        <div className="metric-item">
+                          <span className="metric-label">Coste directo para la Empresa (Complemento):</span>
+                          <span className="metric-value">{itRes.costeEmpresa.toFixed(2)}€</span>
+                        </div>
+                      </div>
+                      <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', borderTop: '1px solid var(--border)', paddingTop: '1rem' }}>
+                        {itRes.detalleTramos.map((t: { descripcion: string; importe: number }, idx: number) => (
+                          <div key={idx} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <span>{t.descripcion}</span>
+                            <span>{t.importe.toFixed(2)}€</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+            </section>
+
+            <section className="glass-card">
+              <h3 style={{ borderBottom: '1px solid var(--border)', paddingBottom: '1rem', marginBottom: '1.5rem' }}>INFORMACIÓN SOBRE ABSENTISMO</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', fontSize: '0.9rem' }}>
+                <p>En el <strong>Convenio de Limpieza de Tenerife</strong>, las mejoras por IT son:</p>
+                <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', borderLeft: '4px solid var(--primary)' }}>
+                  <strong>Accidente Laboral:</strong> Complemento hasta el 100% desde el primer día.
+                </div>
+                <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.02)', borderRadius: '12px', borderLeft: '4px solid var(--warning)' }}>
+                  <strong>Enfermedad Común:</strong> El tramo legal es 1-3 (nada), 4-20 (60%), 21+ (75%). Muchos centros complementan al 100% tras 15 o 21 días.
+                </div>
+                <p style={{ fontStyle: 'italic', fontSize: '0.8rem', color: 'var(--text-muted)' }}>* Este simulador estima el complemento al 100% de la base de cotización para una visión conservadora del coste.</p>
+              </div>
+            </section>
+          </div>
+        </div>
+      )}
+
+      {showIrpfAssistant && (
+        <div className="modal-overlay" onClick={() => setShowIrpfAssistant(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()} style={{ maxWidth: '400px' }}>
+            <h3 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--primary)' }}>
+              <Percent size={24} /> ASISTENTE DE IRPF RECOMENDADO
+            </h3>
+
+            <div className="input-group">
+              <label>Situación Personal</label>
+              <select value={irpfData.situacion} onChange={(e) => setIrpfData({ ...irpfData, situacion: e.target.value })}>
+                <option value="1">Soltero, divorciado o viudo</option>
+                <option value="2">Casado (cónyuge gana {'<'} 1.500€/año)</option>
+                <option value="3">Otras situaciones (Casado cónyuge trabaja, etc.)</option>
+              </select>
+            </div>
+
+            <div className="input-group">
+              <label>Número de Hijos (Menores de 25 años)</label>
+              <input type="number" value={irpfData.hijos} onChange={(e) => setIrpfData({ ...irpfData, hijos: parseInt(e.target.value) || 0 })} />
+            </div>
+
+            <div className="input-group" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <input type="checkbox" id="discIrpf" checked={irpfData.discapacidad} onChange={(e) => setIrpfData({ ...irpfData, discapacidad: e.target.checked })} style={{ width: 'auto' }} />
+              <label htmlFor="discIrpf" style={{ marginBottom: 0 }}>¿Alguna discapacidad {'>'}= 33%?</label>
+            </div>
+
+            <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'var(--primary-glow)', borderRadius: '12px', textAlign: 'center' }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Porcentaje sugerido:</div>
+              <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--primary)' }}>
+                {(() => {
+                  let base = 12; // Base para soltero
+                  if (irpfData.situacion === '2') base = 9;
+                  if (irpfData.situacion === '3') base = 10;
+
+                  const descuentoHijos = Math.min(6, irpfData.hijos * 1.5);
+                  const descuentoDisc = irpfData.discapacidad ? 3 : 0;
+
+                  const result = Math.max(2, base - descuentoHijos - descuentoDisc);
+                  return result.toFixed(1) + '%';
+                })()}
+              </div>
+            </div>
+
+            <button className="btn-primary" style={{ width: '100%', marginTop: '1.5rem' }} onClick={() => {
+              const base = irpfData.situacion === '2' ? 9 : (irpfData.situacion === '3' ? 10 : 12);
+              const result = Math.max(2, base - Math.min(6, irpfData.hijos * 1.5) - (irpfData.discapacidad ? 3 : 0));
+              setPayrollInput({ ...payrollInput, irpfManual: result });
+              setShowIrpfAssistant(false);
+            }}>
+              Aplicar % Recomendado
+            </button>
+            <button className="btn-nav" style={{ width: '100%', marginTop: '0.5rem' }} onClick={() => setShowIrpfAssistant(false)}>
+              Cerrar
+            </button>
+          </div>
+        </div>
+      )}
       {showExportModal && (
         <div className="modal-overlay" onClick={() => setShowExportModal(false)}>
           <div className="modal-content" onClick={e => e.stopPropagation()}>

@@ -285,3 +285,74 @@ export function calculateSeverance(
         totalLiquido
     };
 }
+
+export interface SickLeaveInput {
+    tipo: 'comun' | 'profesional';
+    diasBaja: number;
+    baseCotizacionMesAnterior: number;
+    complementoConvenio: boolean;
+}
+
+export interface SickLeaveResult {
+    subsidioSS: number;
+    complementoEmpresa: number;
+    totalPercibido: number;
+    costeEmpresa: number;
+    detalleTramos: { descripcion: string; importe: number }[];
+}
+
+export function calculateSickLeave(input: SickLeaveInput): SickLeaveResult {
+    const baseDiaria = input.baseCotizacionMesAnterior / 30;
+    let subsidioSS = 0;
+    let complementoEmpresa = 0;
+    const detalleTramos: { descripcion: string; importe: number }[] = [];
+
+    if (input.tipo === 'comun') {
+        // Tramos Enfermedad Común
+        // 1-3: 0%
+        // 4-15: 60% (Empresa paga pero es subsidio delegado) -> Simplificamos como "paga SS/Empresa"
+        // 16-20: 60% (SS paga)
+        // 21+: 75% (SS paga)
+
+        for (let i = 1; i <= input.diasBaja; i++) {
+            let diario = 0;
+
+            if (i <= 3) {
+                diario = 0;
+            } else if (i <= 20) {
+                diario = baseDiaria * 0.60;
+            } else {
+                diario = baseDiaria * 0.75;
+            }
+
+            subsidioSS += diario;
+
+            if (input.complementoConvenio) {
+                // Complemento al 100% (Estimación general: muchas empresas complementan al 100% desde el 21 o desde el 1)
+                // Para el simulador, complementaremos al 100% del bruto (baseCotizacion)
+                const comp = Math.max(0, baseDiaria - diario);
+                complementoEmpresa += comp;
+            }
+        }
+        detalleTramos.push({ descripcion: `Subsidio IT (Enf. Común - ${input.diasBaja} días)`, importe: subsidioSS });
+    } else {
+        // Accidente Laboral: 75% desde día 1
+        subsidioSS = baseDiaria * 0.75 * input.diasBaja;
+        if (input.complementoConvenio) {
+            complementoEmpresa = (baseDiaria * 0.25) * input.diasBaja;
+        }
+        detalleTramos.push({ descripcion: `Subsidio IT (Accidente - ${input.diasBaja} días)`, importe: subsidioSS });
+    }
+
+    if (complementoEmpresa > 0) {
+        detalleTramos.push({ descripcion: "Complemento Mejorado Empresa", importe: complementoEmpresa });
+    }
+
+    return {
+        subsidioSS,
+        complementoEmpresa,
+        totalPercibido: subsidioSS + complementoEmpresa,
+        costeEmpresa: complementoEmpresa, // La empresa solo asume el complemento (el subsidio es pago delegado o mutua)
+        detalleTramos
+    };
+}
