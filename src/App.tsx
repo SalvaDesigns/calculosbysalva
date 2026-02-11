@@ -463,7 +463,7 @@ const App: React.FC = () => {
       <main className="main-content">
         <header className="top-bar">
           <div>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: '700' }}>
+            <h2>
               {activeTab === 'dashboard' && 'Resumen Analítico'}
               {activeTab === 'payroll' && 'Simulador de Nómina Mensual'}
               {activeTab === 'costs' && 'Análisis de Costes y Provisiones'}
@@ -473,7 +473,7 @@ const App: React.FC = () => {
               {activeTab === 'tenders' && 'Presupuestador de Licitaciones'}
               {activeTab === 'config' && 'Configuración del Sistema'}
             </h2>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Cálculos actualizados v1.9 Stable</p>
+            <p>Cálculos actualizados v1.9 Stable</p>
           </div>
           <div style={{ display: 'flex', gap: '0.75rem', position: 'relative' }}>
             <div style={{ position: 'relative' }}>
