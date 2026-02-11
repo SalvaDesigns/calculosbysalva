@@ -475,147 +475,143 @@ const App: React.FC = () => {
             </h2>
             <p>Cálculos actualizados v1.9 Stable</p>
           </div>
+          <div style={{ display: 'flex', gap: '0.75rem', position: 'relative' }}>
+            <div style={{ position: 'relative' }}>
+              <button className="header-action-btn" onClick={() => setShowThemes(!showThemes)}>
+                <Palette size={18} /> <span>Temas</span> <ChevronDown size={14} />
+              </button>
+              {showThemes && (
+                <div className="glass-card" style={{
+                  position: 'absolute',
+                  top: '100%',
+                  right: 0,
+                  marginTop: '0.5rem',
+                  zIndex: 1000,
+                  width: '240px',
+                  padding: '0.5rem',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
+                }}>
+                  <div style={{ padding: '0.5rem', borderBottom: '1px solid var(--border)', marginBottom: '0.5rem' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--text-muted)' }}>PERSONALIZACIÓN VISUAL</span>
+                  </div>
+                  <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'premium' ? 'var(--primary-glow)' : '' }}
+                    onClick={() => { setTheme('premium'); setShowThemes(false); }}>
+                    <Sun size={16} color="#6366f1" />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Premium Light</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Indigo y Glassmorphism</span>
+                    </div>
+                  </div>
+                  <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'dark' ? 'var(--primary-glow)' : '' }}
+                    onClick={() => { setTheme('dark'); setShowThemes(false); }}>
+                    <Moon size={16} color="#0ea5e9" />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Clásico Dark</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Fondo negro y Cyan</span>
+                    </div>
+                  </div>
+                  <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'midnight' ? 'var(--primary-glow)' : '' }}
+                    onClick={() => { setTheme('midnight'); setShowThemes(false); }}>
+                    <Sparkles size={16} color="#f59e0b" />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Midnight Navy</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Azul profundo y Oro</span>
+                    </div>
+                  </div>
+                  <div className="btn-nav" style={{ justifyContent: 'flex-start', background: theme === 'emerald' ? 'var(--primary-glow)' : '' }}
+                    onClick={() => { setTheme('emerald'); setShowThemes(false); }}>
+                    <Leaf size={16} color="#10b981" />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Emerald Forest</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Tonos verdes relajantes</span>
+                    </div>
+                  </div>
+                  <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'forest' ? 'var(--primary-glow)' : '' }}
+                    onClick={() => { setTheme('forest'); setShowThemes(false); }}>
+                    <TreePine size={16} color="#064e3b" />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Deep Forest</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Contraste verde bosque</span>
+                    </div>
+                  </div>
+                  <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'soft-gold' ? 'var(--primary-glow)' : '' }}
+                    onClick={() => { setTheme('soft-gold'); setShowThemes(false); }}>
+                    <CloudSun size={16} color="#d97706" />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Soft Gold</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Tonos cálidos y suaves</span>
+                    </div>
+                  </div>
+                  <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'corporate' ? 'var(--primary-glow)' : '' }}
+                    onClick={() => { setTheme('corporate'); setShowThemes(false); }}>
+                    <Building2 size={16} color="#be185d" />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Corporate Elite</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Gris pizarra y Magenta</span>
+                    </div>
+                  </div>
+                  <div className="btn-nav" style={{ justifyContent: 'flex-start', background: theme === 'earth' ? 'var(--primary-glow)' : '' }}
+                    onClick={() => { setTheme('earth'); setShowThemes(false); }}>
+                    <Mountain size={16} color="#78350f" />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
+                      <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Earth Modern</span>
+                      <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Tonos tierra y crema</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div style={{ position: 'relative' }}>
+              <button className="header-action-btn" onClick={() => setShowProfiles(!showProfiles)}>
+                <User size={18} /> <span>Perfiles</span> <ChevronDown size={14} />
+              </button>
+              {showProfiles && (
+                <div className="glass-card" style={{
+                  position: 'absolute',
+                  top: '100%',
+                  right: 0,
+                  marginTop: '0.5rem',
+                  zIndex: 1000,
+                  width: '240px',
+                  padding: '0.5rem',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
+                  maxHeight: '400px',
+                  overflowY: 'auto'
+                }}>
+                  <div style={{ padding: '0.5rem', borderBottom: '1px solid var(--border)', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--text-muted)' }}>PERFILES GUARDADOS</span>
+                    <UserPlus size={14} className="icon-hover-primary" onClick={() => {
+                      const name = prompt('Nombre del perfil:');
+                      if (name) saveProfile(name);
+                    }} />
+                  </div>
+                  {savedProfiles.map(profile => (
+                    <div key={profile.id} className="btn-nav" style={{ justifyContent: 'space-between', paddingRight: '0.5rem', marginBottom: '0.25rem' }} onClick={() => { loadProfile(profile); setShowProfiles(false); }}>
+                      <span style={{ fontSize: '0.85rem' }}>{profile.name}</span>
+                      <Trash2 size={14} className="icon-hover-danger" onClick={(e) => { e.stopPropagation(); deleteProfile(profile.id); }} />
+                    </div>
+                  ))}
+                  {savedProfiles.length === 0 && (
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center', padding: '1rem' }}>No hay perfiles</p>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <button className="header-action-btn" onClick={() => {
+              const name = prompt('Nombre del perfil:');
+              if (name) saveProfile(name);
+            }}>
+              <Save size={18} /> <span>Guardar Escenario</span>
+            </button>
+            <button className="header-action-btn primary" onClick={generatePDF}>
+              <Download size={18} /> <span>Exportar Informe PDF</span>
+            </button>
+          </div>
         </header>
 
         <div className="content-scroll-area">
-          {activeTab === 'dashboard' && result && (
-            <div className="grid-main">
-              {/* ... (rest of the dashboard) */}
-              <div style={{ position: 'relative' }}>
-                <button className="header-action-btn" onClick={() => setShowThemes(!showThemes)}>
-                  <Palette size={18} /> <span>Temas</span> <ChevronDown size={14} />
-                </button>
-                {showThemes && (
-                  <div className="glass-card" style={{
-                    position: 'absolute',
-                    top: '100%',
-                    right: 0,
-                    marginTop: '0.5rem',
-                    zIndex: 1000,
-                    width: '240px',
-                    padding: '0.5rem',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
-                  }}>
-                    <div style={{ padding: '0.5rem', borderBottom: '1px solid var(--border)', marginBottom: '0.5rem' }}>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--text-muted)' }}>PERSONALIZACIÓN VISUAL</span>
-                    </div>
-                    <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'premium' ? 'var(--primary-glow)' : '' }}
-                      onClick={() => { setTheme('premium'); setShowThemes(false); }}>
-                      <Sun size={16} color="#6366f1" />
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Premium Light</span>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Indigo y Glassmorphism</span>
-                      </div>
-                    </div>
-                    <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'dark' ? 'var(--primary-glow)' : '' }}
-                      onClick={() => { setTheme('dark'); setShowThemes(false); }}>
-                      <Moon size={16} color="#0ea5e9" />
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Clásico Dark</span>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Fondo negro y Cyan</span>
-                      </div>
-                    </div>
-                    <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'midnight' ? 'var(--primary-glow)' : '' }}
-                      onClick={() => { setTheme('midnight'); setShowThemes(false); }}>
-                      <Sparkles size={16} color="#f59e0b" />
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Midnight Navy</span>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Azul profundo y Oro</span>
-                      </div>
-                    </div>
-                    <div className="btn-nav" style={{ justifyContent: 'flex-start', background: theme === 'emerald' ? 'var(--primary-glow)' : '' }}
-                      onClick={() => { setTheme('emerald'); setShowThemes(false); }}>
-                      <Leaf size={16} color="#10b981" />
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Emerald Forest</span>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Tonos verdes relajantes</span>
-                      </div>
-                    </div>
-                    <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'forest' ? 'var(--primary-glow)' : '' }}
-                      onClick={() => { setTheme('forest'); setShowThemes(false); }}>
-                      <TreePine size={16} color="#064e3b" />
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Deep Forest</span>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Contraste verde bosque</span>
-                      </div>
-                    </div>
-                    <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'soft-gold' ? 'var(--primary-glow)' : '' }}
-                      onClick={() => { setTheme('soft-gold'); setShowThemes(false); }}>
-                      <CloudSun size={16} color="#d97706" />
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Soft Gold</span>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Tonos cálidos y suaves</span>
-                      </div>
-                    </div>
-                    <div className="btn-nav" style={{ justifyContent: 'flex-start', marginBottom: '0.25rem', background: theme === 'corporate' ? 'var(--primary-glow)' : '' }}
-                      onClick={() => { setTheme('corporate'); setShowThemes(false); }}>
-                      <Building2 size={16} color="#be185d" />
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Corporate Elite</span>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Gris pizarra y Magenta</span>
-                      </div>
-                    </div>
-                    <div className="btn-nav" style={{ justifyContent: 'flex-start', background: theme === 'earth' ? 'var(--primary-glow)' : '' }}
-                      onClick={() => { setTheme('earth'); setShowThemes(false); }}>
-                      <Mountain size={16} color="#78350f" />
-                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '2px' }}>
-                        <span style={{ fontSize: '0.85rem', fontWeight: '600' }}>Earth Modern</span>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)' }}>Tonos tierra y crema</span>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div style={{ position: 'relative' }}>
-                <button className="header-action-btn" onClick={() => setShowProfiles(!showProfiles)}>
-                  <User size={18} /> <span>Perfiles</span> <ChevronDown size={14} />
-                </button>
-                {showProfiles && (
-                  <div className="glass-card" style={{
-                    position: 'absolute',
-                    top: '100%',
-                    right: 0,
-                    marginTop: '0.5rem',
-                    zIndex: 1000,
-                    width: '240px',
-                    padding: '0.5rem',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.5)',
-                    maxHeight: '400px',
-                    overflowY: 'auto'
-                  }}>
-                    <div style={{ padding: '0.5rem', borderBottom: '1px solid var(--border)', marginBottom: '0.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--text-muted)' }}>PERFILES GUARDADOS</span>
-                      <UserPlus size={14} className="icon-hover-primary" onClick={() => {
-                        const name = prompt('Nombre del perfil:');
-                        if (name) saveProfile(name);
-                      }} />
-                    </div>
-                    {savedProfiles.map(profile => (
-                      <div key={profile.id} className="btn-nav" style={{ justifyContent: 'space-between', paddingRight: '0.5rem', marginBottom: '0.25rem' }} onClick={() => { loadProfile(profile); setShowProfiles(false); }}>
-                        <span style={{ fontSize: '0.85rem' }}>{profile.name}</span>
-                        <Trash2 size={14} className="icon-hover-danger" onClick={(e) => { e.stopPropagation(); deleteProfile(profile.id); }} />
-                      </div>
-                    ))}
-                    {savedProfiles.length === 0 && (
-                      <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', textAlign: 'center', padding: '1rem' }}>No hay perfiles</p>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              <button className="header-action-btn" onClick={() => {
-                const name = prompt('Nombre del perfil:');
-                if (name) saveProfile(name);
-              }}>
-                <Save size={18} /> <span>Guardar Escenario</span>
-              </button>
-              <button className="header-action-btn primary" onClick={generatePDF}>
-                <Download size={18} /> <span>Exportar Informe PDF</span>
-              </button>
-            </div>
-          )}
-
           {activeTab === 'dashboard' && result && (
             <div className="grid-main">
               <div className="glass-card kpi-card">
