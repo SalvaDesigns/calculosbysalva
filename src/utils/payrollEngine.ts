@@ -44,6 +44,8 @@ export interface PayrollResult {
         anual: number;
         seguridadSocial: number;
         indemnizacionProp: number;
+        costeHoraBruto: number;
+        costeHoraTotal: number;
         detailedSS: DetailedSS;
     };
     nextTrienio: NextTrienioInfo;
@@ -183,27 +185,37 @@ export function calculatePayroll(
     const ssEmpresaTotal = brutoMensual * config.ssEmpresa;
     const indemnizacionProp = brutoMensual * 0.03;
 
-    const provisionBolsaIguala = ((bolsaMensual + igualaMensual) / 30 * 34) / 12;
-    const provisionSS_BolsaIguala = provisionBolsaIguala * (config.ssEmpresa + 0.03);
+    // --- CÁLCULO DE COSTE ANUAL ULTRA-PRECISO (SEGÚN CONVENIO LIMPIEZA TENERIFE) ---
+    const diasVacacionesAnuales = 34;
+    const factorProrrataPagas = 4; // 4 pagas extras al año
 
-    const costeMensualTotal = brutoMensual + ssEmpresaTotal + indemnizacionProp + provisionBolsaIguala + provisionSS_BolsaIguala;
+    // 1. Bruto Anual (Conceptos fijos)
+    const sumaBaseAnual = (salarioBase + plusConvenio + antiguedad) * 12;
+    const sumaExtrasAnual = (category.pagasExtras * ratioJornada) * factorProrrataPagas;
+    const sumaBolsaAnual = (category.bolsa || 0) * ratioJornada;
+    const sumaIgualaAnual = (category.iguala || 0) * ratioJornada;
 
-    let costeAnual = (brutoMensual + ssEmpresaTotal + indemnizacionProp) * 12;
-    if (!input.pagasProrrateadas) {
-        const extraValue = category.pagasExtras * ratioJornada;
-        const extraConSS = extraValue * (1 + config.ssEmpresa + 0.03);
-        costeAnual += (extraConSS * 4);
-    }
+    // 2. Plus Distancia Anual (Se descuenta en vacaciones: 34 días)
+    const plusDistanciaDiario = (category.plusDistancia * ratioJornada) / 30;
+    const sumaDistanciaAnual = (plusDistanciaDiario * 30 * 12) - (plusDistanciaDiario * diasVacacionesAnuales);
 
-    const costeAnualBolsaIguala = (bolsaMensual + igualaMensual) / 30 * 34;
-    const costeAnualBolsaIgualaConSS = costeAnualBolsaIguala * (1 + config.ssEmpresa + 0.03);
+    // 3. Otros (Nocturnidad y Extras manuales se proyectan a 12 meses)
+    const proyectadoOtros = (nocturnidadValue + extraTotal) * 12;
 
-    if (input.diasVacaciones > 0) {
-        const yaPagado = (bolsaActual + igualaActual) * (1 + config.ssEmpresa + 0.03);
-        costeAnual -= (yaPagado * 12);
-        costeAnual += yaPagado;
-    }
-    costeAnual += costeAnualBolsaIgualaConSS;
+    const brutoAnualTotal = sumaBaseAnual + sumaExtrasAnual + sumaBolsaAnual + sumaIgualaAnual + sumaDistanciaAnual + proyectadoOtros;
+
+    // 4. Seguridad Social e Indemnización Anual
+    const ssEmpresaAnual = brutoAnualTotal * config.ssEmpresa;
+    const indemnizacionAnual = brutoAnualTotal * 0.03; // Provisión 3%
+
+    const costeAnualTotal = brutoAnualTotal + ssEmpresaAnual + indemnizacionAnual;
+
+    // 5. Cálculos por Hora
+    // Horas anuales efectivas (Convenio Limpieza Tenerife suele rondar las 1730-1826h corregidas)
+    // Usamos divisorHoras * 12 como base de cálculo coherente con el sistema
+    const horasAnuales = config.divisorHoras * 12 * ratioJornada;
+    const costeHoraBruto = brutoAnualTotal / horasAnuales;
+    const costeHoraTotal = costeAnualTotal / horasAnuales;
 
     return {
         devengos,
@@ -212,10 +224,12 @@ export function calculatePayroll(
         neto,
         baseCotizacion,
         costeEmpresa: {
-            total: costeMensualTotal,
-            anual: costeAnual,
+            total: costeAnualTotal / 12, // Promedio mensual
+            anual: costeAnualTotal,
             seguridadSocial: ssEmpresaTotal,
             indemnizacionProp,
+            costeHoraBruto,
+            costeHoraTotal,
             detailedSS: { cc, mei, desempleo: ot }
         },
         nextTrienio: calculateNextTrienioInfo(input.fechaAlta, category.salarioBase, ratioJornada),

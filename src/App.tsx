@@ -1439,14 +1439,18 @@ const App: React.FC = () => {
                       </div>
                     </div>
                     <div style={{ padding: '2rem', background: 'rgba(59,130,246,0.03)', borderRadius: '20px', border: '1px solid var(--primary-glow)' }}>
-                      <h4 style={{ marginBottom: '1.5rem', color: 'var(--primary)', fontWeight: '700' }}>MÉTRICAS DE RENDIMIENTO</h4>
+                      <h4 style={{ marginBottom: '1.5rem', color: 'var(--primary)', fontWeight: '700' }}>MÉTRICAS DE RENDIMIENTO (POR HORA)</h4>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                         <div className="metric-item">
-                          <span className="metric-label">Coste hora efectivo (aprox.)</span>
-                          <span className="metric-value">{(result.costeEmpresa.total / (payrollInput.jornadaSemanal * 4.33)).toFixed(2)}€/h</span>
+                          <span className="metric-label">Coste Bruto por Hora</span>
+                          <span className="metric-value" style={{ color: 'var(--text-main)' }}>{result.costeEmpresa.costeHoraBruto.toFixed(2)}€/h</span>
                         </div>
                         <div className="metric-item">
-                          <span className="metric-label">Factor multiplicador bruto</span>
+                          <span className="metric-label"><strong>Coste Total Empresa por Hora</strong></span>
+                          <span className="metric-value font-bold" style={{ color: 'var(--primary)', fontSize: '1.2rem' }}>{result.costeEmpresa.costeHoraTotal.toFixed(2)}€/h</span>
+                        </div>
+                        <div className="metric-item" style={{ marginTop: '0.5rem', borderTop: '1px solid var(--border)', paddingTop: '1rem' }}>
+                          <span className="metric-label">Factor multiplicador sobre bruto</span>
                           <span className="metric-value">{(result.costeEmpresa.total / result.bruto).toFixed(2)}x</span>
                         </div>
                       </div>
