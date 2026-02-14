@@ -18,7 +18,7 @@ interface SavedProfile {
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'payroll' | 'costs' | 'comparison' | 'finiquito' | 'absenteeism' | 'consultas' | 'tenders' | 'config'>('dashboard');
-  const [theme, setTheme] = useState<'premium' | 'dark' | 'midnight' | 'emerald' | 'forest' | 'soft-gold' | 'corporate' | 'earth'>('premium');
+  const [theme, setTheme] = useState<'premium' | 'dark' | 'midnight' | 'emerald' | 'forest' | 'soft-gold' | 'corporate' | 'earth'>('midnight');
   const [showThemes, setShowThemes] = useState(false);
   const [activeYear, setActiveYear] = useState<string>('2025');
   const [categories, setCategories] = useState<Category[]>(defaultData.years['2025'].categorias);
@@ -175,7 +175,7 @@ const App: React.FC = () => {
 
     if (storedProfiles) setSavedProfiles(JSON.parse(storedProfiles));
 
-    const savedTheme = localStorage.getItem('payroll_theme') as 'premium' | 'dark';
+    const savedTheme = localStorage.getItem('payroll_theme') as any;
     if (savedTheme) setTheme(savedTheme);
 
     setIsLoaded(true);
